@@ -8,7 +8,6 @@ public class Assign4
    }
 }
 
-
 interface BarcodeIO
 {
    public boolean scan(BarcodeImage bc);
@@ -41,9 +40,7 @@ class BarcodeImage implements Cloneable
    
    // Constructor
    BarcodeImage(String[] str_data)
-   {
-	  
-	   
+   {   
       for(int col = 1; col < MAX_WIDTH; col++)
       {
          for(int row = 1; row < MAX_HEIGHT; row++)
