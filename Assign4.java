@@ -1,4 +1,5 @@
 import java.lang.*;
+import java.lang.Math;
 
 public class Assign4
 {
@@ -209,3 +210,82 @@ class BarcodeImage implements Cloneable
       return (BarcodeImage)super.clone();  
    }
 }
+
+
+
+
+public class DataMatrix implements BarcodeIO
+{
+   public static final char BLACK_CHAR = '*';
+   public static final char WHITE_CHAR = ' '; 
+   private BarcodeImage image;
+   private String text;
+   private int actualWidth, actualHeight;
+
+
+   //Default Constructor
+   public DataMatrix()
+   {
+      image = new BarcodeImage();
+      text = "";
+      actualWidth = 0;
+      actualHeight = 0;
+   }
+
+
+   //Constructor 
+   public DataMatrix(String text)
+   {
+      image = new BarcodeImage();
+
+      if(!readText(text))
+         text = "";
+
+      actualWidth = 0;
+      actualHeight = 0;  
+   }
+
+   //Constructor 
+   public DataMatrix(BarcodeImage image)
+   {
+      if(!scan(image))
+         image = new BarcodeImage();
+      else
+      {
+         actualWidth = 0;
+         actualHeight = 0;
+      }
+
+      text = "";
+   }
+
+   //Mutator for text
+   public boolean readText(String text)
+   {
+
+      if(text == null)
+         return false;
+
+      this.text = text;
+      return true;
+   }
+
+
+
+   //Mutator for image 
+   public boolean scan(BarcodeImage image)
+   {
+
+      //catches the exception to the BarcodeImage
+      try
+      {
+         this.image = (BarcodeImage)image.clone();
+         this.image = (BarcodeImage)image.cleanImage();
+         actualWidth = computeSignalWidth();
+         actualHeight = computeSignalHeight();
+         return true; 
+      }
+      catch (CloneNotSupportedException ex)
+      {
+         return false;
+      }
