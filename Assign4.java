@@ -39,8 +39,18 @@ class BarcodeImage implements Cloneable
    }
    
    // Constructor
-   BarcodeImage(String[] str_data)
+        BarcodeImage(String[] str_data)
 	{   
+		image_data = new boolean[MAX_HEIGHT][MAX_WIDTH];
+
+		for(int i = 0; i < MAX_HEIGHT; i++)
+		{
+			for(int j = 0; j < MAX_WIDTH; j++)
+			{
+				image_data[i][j] = false;
+			}
+		}
+		
 		int arrayLength = str_data.length;
 		int lineLength = str_data[0].length();
 		int xHolder = 0, yHolder = 0;
@@ -64,17 +74,17 @@ class BarcodeImage implements Cloneable
 			}
 		}
 
-		for(int row = yHolder; row <= 0; row--)
+		for(int row = yHolder; row >= 0; row--)
 		{
 			for(int col = xHolder; col < lineLength; col++)
 			{
 				if(str_data[row].charAt(col) == '*')
 				{
-					image_data[arrayLength - (yHolder - row)][xHolder - col] = true;
+					image_data[MAX_HEIGHT - (yHolder - row) - 1][col - xHolder] = true;
 				}
 				else
 				{
-					image_data[arrayLength - (yHolder - row)][xHolder - col] = false;
+					image_data[MAX_HEIGHT - (yHolder - row) - 1][col - xHolder] = false;
 				}
 			}
 		}
