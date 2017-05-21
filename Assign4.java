@@ -40,15 +40,45 @@ class BarcodeImage implements Cloneable
    
    // Constructor
    BarcodeImage(String[] str_data)
-   {   
-      for(int col = 1; col < MAX_WIDTH; col++)
-      {
-         for(int row = 1; row < MAX_HEIGHT; row++)
-         {
-            
-         }
-      }
-   }
+	{   
+		int arrayLength = str_data.length;
+		int lineLength = str_data[0].length();
+		int xHolder = 0, yHolder = 0;
+		boolean found = false;
+
+		while (found == false)
+		{
+			for(int line = arrayLength - 1; line >= 0; line--)
+			{
+				for(int character = 0; character < lineLength; character++)
+				{
+					if(str_data[line].charAt(character) == '*')
+					{
+						xHolder = character;
+						yHolder = line;
+						found = true;
+						break;
+					}
+				}
+				if(found == true) break;
+			}
+		}
+
+		for(int row = yHolder; row <= 0; row--)
+		{
+			for(int col = xHolder; col < lineLength; col++)
+			{
+				if(str_data[row].charAt(col) == '*')
+				{
+					image_data[arrayLength - (yHolder - row)][xHolder - col] = true;
+				}
+				else
+				{
+					image_data[arrayLength - (yHolder - row)][xHolder - col] = false;
+				}
+			}
+		}
+	}
 }
 
 class DataMatrix implements BarcodeIO
