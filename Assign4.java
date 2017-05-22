@@ -410,7 +410,16 @@ class DataMatrix implements BarcodeIO
 	      charVal = charVal >> 1;
 	   }
 	   return column;
-	   }
+	}
+	
+	//static helper for next method
+	public char boolToChar(boolean bool)
+        {
+	   if (bool == true)
+	      return BLACK_CHAR;
+	   else
+	      return WHITE_CHAR;
+        }  
 	//Creates image from text -Norma
 	public boolean generateImageFromText()
 	{
