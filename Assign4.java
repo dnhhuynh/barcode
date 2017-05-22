@@ -330,6 +330,11 @@ class DataMatrix implements BarcodeIO
 	}
 }
 
+      public void displayTextToConsole()
+      {
+         System.out.println(text);
+      }
+
 //Displays only the relevant portion of the image,
 //clipping the excess blank/white from the top and right
 public void displayImageToConsole()
