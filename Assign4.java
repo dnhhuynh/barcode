@@ -3,32 +3,73 @@ import java.lang.Math;
 
 public class Assign4
 {
-	public static void main(String args[])
-	{
-		String[] sImageIn =
-			{
-					"                                               ",
-					"                                               ",
-					"                                               ",
-					"     * * * * * * * * * * * * * * * * * * * * * ",
-					"     *                                       * ",
-					"     ****** **** ****** ******* ** *** *****   ",
-					"     *     *    ****************************** ",
-					"     * **    * *        **  *    * * *   *     ",
-					"     *   *    *  *****    *   * *   *  **  *** ",
-					"     *  **     * *** **   **  *    **  ***  *  ",
-					"     ***  * **   **  *   ****    *  *  ** * ** ",
-					"     *****  ***  *  * *   ** ** **  *   * *    ",
-					"     ***************************************** ",  
-					"                                               ",
-					"                                               ",
-					"                                               "
+	public static void main(String[] args)
+	   {
+	      String[] sImageIn =
+	      {
+	         "                                               ",
+	         "                                               ",
+	         "                                               ",
+	         "     * * * * * * * * * * * * * * * * * * * * * ",
+	         "     *                                       * ",
+	         "     ****** **** ****** ******* ** *** *****   ",
+	         "     *     *    ****************************** ",
+	         "     * **    * *        **  *    * * *   *     ",
+	         "     *   *    *  *****    *   * *   *  **  *** ",
+	         "     *  **     * *** **   **  *    **  ***  *  ",
+	         "     ***  * **   **  *   ****    *  *  ** * ** ",
+	         "     *****  ***  *  * *   ** ** **  *   * *    ",
+	         "     ***************************************** ",  
+	         "                                               ",
+	         "                                               ",
+	         "                                               "
 
-			};  
+	      };      
+	            
+	         
+	      
+	      String[] sImageIn_2 =
+	      {
+	            "                                          ",
+	            "                                          ",
+	            "* * * * * * * * * * * * * * * * * * *     ",
+	            "*                                    *    ",
+	            "**** *** **   ***** ****   *********      ",
+	            "* ************ ************ **********    ",
+	            "** *      *    *  * * *         * *       ",
+	            "***   *  *           * **    *      **    ",
+	            "* ** * *  *   * * * **  *   ***   ***     ",
+	            "* *           **    *****  *   **   **    ",
+	            "****  *  * *  * **  ** *   ** *  * *      ",
+	            "**************************************    ",
+	            "                                          ",
+	            "                                          ",
+	            "                                          ",
+	            "                                          "
 
-		BarcodeImage name = new BarcodeImage(sImageIn);
-		name.displayToConsole();
-	}
+	      };
+	     
+	      BarcodeImage bc = new BarcodeImage(sImageIn);
+	      DataMatrix dm = new DataMatrix(bc);
+	     
+	      // First secret message
+	      dm.translateImageToText();
+	      dm.displayTextToConsole();
+	      dm.displayImageToConsole();
+	      
+	      // second secret message
+	      bc = new BarcodeImage(sImageIn_2);
+	      dm.scan(bc);
+	      dm.translateImageToText();
+	      dm.displayTextToConsole();
+	      dm.displayImageToConsole();
+	      
+	      // create your own message
+	      dm.readText("What a great resume builder this is!");
+	      dm.generateImageFromText();
+	      dm.displayTextToConsole();
+	      dm.displayImageToConsole();
+	   }
 }
 
 interface BarcodeIO
@@ -272,52 +313,54 @@ class DataMatrix implements BarcodeIO
 		try
 		{
 			this.image = (BarcodeImage)image.clone();
-			this.image = (BarcodeImage)image.cleanImage();
-			actualWidth = computeSignalWidth();
-			actualHeight = computeSignalHeight();
-			return true; 
 		}
 		catch (CloneNotSupportedException ex)
 		{
-			return false;
+
 		}
+
+		cleanImage();
+		actualWidth = computeSignalWidth();
+		actualHeight = computeSignalHeight();
+
+		return true;
 	}
-	
+
 	//Accessors
 	public int getWidth()
 	{
 		return actualWidth;
 	}
-	
+
 	public int getHeight()
 	{
 		return actualHeight;
 	}
-	
+
 	private int computeSignalWidth()
 	{	
 		int min_Width = 0;
-		
+
 		for(int i = BarcodeImage.MAX_WIDTH - 1; i >= 0; i--)
 		{
 			if(image.getPixel(BarcodeImage.MAX_HEIGHT - 1, 0) == true) min_Width = i;
 		}
-		
+
 		return min_Width;
 	}
-	
+
 	private int computeSignalHeight()
 	{
 		int min_Height = 0;
-		
+
 		for(int i = 0; i < BarcodeImage.MAX_HEIGHT; i++)
 		{
 			if(image.getPixel(i, 0) == true) min_Height = i;
 		}
-		
+
 		return BarcodeImage.MAX_HEIGHT - min_Height;
 	}
-	
+
 	private void cleanImage()
 	{
 		for(int row = BarcodeImage.MAX_HEIGHT - actualHeight; row >= 0; row--)
@@ -328,96 +371,97 @@ class DataMatrix implements BarcodeIO
 			}
 		}
 	}
+
+	public void displayImageToConsole()
+	{
+		int row, col;
+		char temp;
+		System.out.println();
+		for ( col = 0; col < actualWidth + 2; col++ )
+			System.out.print("-");
+		System.out.println();
+		for (row = BarcodeImage.MAX_HEIGHT - actualHeight; 
+				row < BarcodeImage.MAX_HEIGHT; row++)
+		{
+			System.out.print("|");
+			for (col = 0; col < actualWidth; col++)
+			{
+				temp = boolToChar(image.getPixel(row, col));
+				System.out.print(temp);
+			}
+			System.out.println("|");
+		}
+		for ( col = 0; col < actualWidth + 2; col++ )
+			System.out.print("-");
+		System.out.println();
+	}
+	
+	//Creates image from text -Norma
+	public boolean generateImageFromText()
+	{
+		int row, col, digit;
+		boolean[] columnVals;
+
+		//check that the text is a legal length
+		if (text == "" || text.length() > BarcodeImage.MAX_WIDTH - 2)
+			return false;
+		clearImage();
+		scan(image);
+
+		//this double loop takes help from a method that converts a char into 
+		//an array of bools representing 1s and 0s
+		for (col = 1; col < text.length() + 1; col++)
+		{
+			columnVals = charToBinary(text.charAt(col - 1));
+			for (row = BarcodeImage.MAX_HEIGHT - 2, digit = columnVals.length - 1; 
+					row >= BarcodeImage.MAX_HEIGHT - 9; row--, digit--)
+			{
+				image.setPixel(row, col, columnVals[digit]);
+			}
+		}
+
+		return true;
+	}
+	
+	//Turns image into text-Norma
+	public boolean translateImageToText()
+	{
+		int row, col, digit;
+		char temp;
+
+		//clears the text field then fills it
+		readText("");
+
+		for (col = 1; col < actualWidth - 1; col++)
+		{
+			temp = 0;
+			for (row = BarcodeImage.MAX_HEIGHT - 2, digit = 0; 
+					row > BarcodeImage.MAX_HEIGHT - actualWidth; row--, digit++)
+			{
+
+				if (image.getPixel(row, col) == true)
+					temp += (int)Math.pow(2, digit);
+			}
+			text += temp;
+		}
+		return true;
+	}
+	
+	//sets image to white=false -Norma
+	private void clearImage()
+	{
+		int row, col;
+
+		for (row = 0; row < BarcodeImage.MAX_HEIGHT; row++)
+		{
+			for (col = 0; col < BarcodeImage.MAX_WIDTH; col++)
+				image.setPixel(row, col, false);
+		}
+	}
+	
+	public void displayTextToConsole()
+	{
+		System.out.print(text);
+	}
 }
-
-      public void displayTextToConsole()
-      {
-         System.out.println(text);
-      }
-
-//Displays only the relevant portion of the image,
-//clipping the excess blank/white from the top and right
-public void displayImageToConsole()
-{
-   int row, col;
-   char temp;
-   System.out.println();
-   for ( col = 0; col < signalWidth + 2; col++ )
-      System.out.print("-");
-      System.out.println() 
-      for (row = BarcodeImage.MAX_HEIGHT - signalHeight; 
-         row < BarcodeImage.MAX_HEIGHT; row++)
-      {
-         System.out.print("|");
-         for (col = 0; col < signalWidth; col++)
-         {
-            temp = boolToChar(image.getPixel(row, col));
-            System.out.print(temp);
-         }
-         System.out.println("|");
-      }
-      for ( col = 0; col < signalWidth + 2; col++ )
-         System.out.print("-");
-         System.out.println();
-   }
-   //Creates image from text -Norma
-   public boolean generateImageFromText()
-   {
-      int row, col, digit;
-      boolean[] columnVals;
-      
-      //check that the text is a legal length
-      if (text == "" || text.length() > BarcodeImage.MAX_WIDTH - 2)
-         return false;
-         clearImage();
-         scan(image);
-      
-         //this double loop takes help from a method that converts a char into 
-         //an array of bools representing 1s and 0s
-         for (col = 1; col < text.length() + 1; col++)
-         {
-            columnVals = charToBinary(text.charAt(col - 1));
-            for (row = BarcodeImage.MAX_HEIGHT - 2, digit = columnVals.length - 1; 
-               row >= BarcodeImage.MAX_HEIGHT - 9; row--, digit--)
-               {
-                  image.setPixel(row, col, columnVals[digit]);
-                }
-         }
-      
-         return true;
-     }
-     //Turns image into text-Norma
-     public boolean translateImageToText()
-     {
-        int row, col, digit;
-        char temp;
-      
-        //clears the text field then fills it
-        readText("");
-      
-        for (col = 1; col < signalWidth - 1; col++)
-        {
-           temp = 0;
-           for (row = BarcodeImage.MAX_HEIGHT - 2, digit = 0; 
-              row > BarcodeImage.MAX_HEIGHT - signalHeight; row--, digit++)
-           {
-            
-           if (image.getPixel(row, col) == true)
-              temp += (int)Math.pow(2, digit);
-           }
-              text += temp;
-        }
-        return true;
-     }
-     //sets image to white=false -Norma
-     private void clearImage()
-     {
-        int row, col;
-      
-        for (row = 0; row < BarcodeImage.MAX_HEIGHT; row++)
-        {
-        for (col = 0; col < BarcodeImage.MAX_WIDTH; col++)
-           image.setPixel(row, col, false);
-        }
-     }
 
