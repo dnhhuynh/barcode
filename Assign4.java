@@ -395,7 +395,22 @@ class DataMatrix implements BarcodeIO
 			System.out.print("-");
 		System.out.println();
 	}
-	
+	private boolean[] charToBinary(char myChar)
+        {
+	   boolean[] column = new boolean[8];
+           int charVal = myChar;
+	      
+	   //use bitshift ond then mod 2 to determine sequence of 1s and 0s
+	   for (int k = column.length - 1; k >= 0; k--)
+	   {
+	   if (charVal % 2 == 1)
+	      column[k] = true;
+	   else 
+	      column[k] = false;
+	      charVal = charVal >> 1;
+	   }
+	   return column;
+	   }
 	//Creates image from text -Norma
 	public boolean generateImageFromText()
 	{
