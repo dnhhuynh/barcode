@@ -289,3 +289,144 @@ public class DataMatrix implements BarcodeIO
       {
          return false;
       }
+      signalWidth = computeSignalWidth(); //-Norma
+      signalHeight = computeSignalHeight();
+      actualWidth = signalWidth - 2;
+      actualHeight = signalHeight - 2;
+      return true;
+   }
+   
+   //Accessors for actualWidth and actualHeight -Norma
+   public int getActualWidth() 
+   { 
+      return actualWidth; 
+   }
+   public int getActualHeight() 
+   { 
+      return actualHeight; 
+   }
+
+   //use the left column to determine height-Norma
+   private int computeSignalHeight()
+   { 
+      int height = 0;
+      for (int row = 0; row < BarcodeImage.MAX_HEIGHT; row++)
+      {
+      if (image.getPixel(row, 0) == true)
+      {
+         height++;
+      }
+      return height;
+   }
+   
+   //use the bottom border to determine width -Norma
+   private int computeSignalWidth()
+   {
+      int width = 0;
+      for (int col = 0; col < BarcodeImage.MAX_WIDTH; col++)
+      {
+      if (image.getPixel(BarcodeImage.MAX_HEIGHT - 1, col) == true)
+      {
+         width++;
+      }
+      return width;
+   }
+   
+   // displays only the relevant portion of the image,
+   //clipping the excess blank/white from the top and right
+   public void displayImageToConsole()
+   {
+      int row, col;
+      char temp;
+      System.out.println();
+      for ( col = 0; col < signalWidth + 2; col++ )
+      {
+         System.out.print("-");
+         System.out.println();
+      }
+      for (row = BarcodeImage.MAX_HEIGHT - signalHeight; 
+      {
+         row < BarcodeImage.MAX_HEIGHT; row++)
+         System.out.print("|");
+      }
+      for (col = 0; col < signalWidth; col++)
+      {
+         temp = boolToChar(image.getPixel(row, col));
+         System.out.print(temp);
+      }
+         System.out.println("|");
+      }
+      for ( col = 0; col < signalWidth + 2; col++ )
+      {
+         System.out.print("-");
+         System.out.println();
+      }
+   }
+   
+   //Creates image from text -Norma
+   public boolean generateImageFromText()
+   {
+      int row, col, digit;
+      boolean[] columnVals;
+      
+      //check that the text is a legal length
+      if (text == "" || text.length() > BarcodeImage.MAX_WIDTH - 2)
+      {
+      return false;
+      }
+      
+      //rely on some member methods to clear the current data, set certain 
+      //border elements, and reset height and width members
+      clearImage();
+      makeFrame();
+      scan(image);
+      
+      //this double loop takes help from a method that converts a char into 
+      //an array of bools representing 1s and 0s
+      for (col = 1; col < text.length() + 1; col++)
+      {
+         columnVals = charToBinary(text.charAt(col - 1));
+      }
+      for (row = BarcodeImage.MAX_HEIGHT - 2, digit = columnVals.length - 1;
+      {
+         row >= BarcodeImage.MAX_HEIGHT - 9; row--, digit--) 
+         image.setPixel(row, col, columnVals[digit]);
+      } 
+      return true;
+    }
+    
+    //Turns image into text-Norma
+    public boolean translateImageToText()
+    {
+      int row, col, digit;
+      char temp;
+      
+      //clears the text field then fills it
+      readText("");
+      for (col = 1; col < signalWidth - 1; col++)
+      {
+         temp = 0;
+         for (row = BarcodeImage.MAX_HEIGHT - 2, digit = 0; 
+         {
+            row > BarcodeImage.MAX_HEIGHT - signalHeight; row--, digit++)
+         }
+         if (image.getPixel(row, col) == true)
+         {
+            temp += (int)Math.pow(2, digit); 
+            text += temp;
+         }
+         return true;
+    }
+    
+    //sets image to white=false -Norma
+    private void clearImage()
+    {
+       int row, col; 
+       for (row = 0; row < BarcodeImage.MAX_HEIGHT; row++)
+       {
+       for (col = 0; col < BarcodeImage.MAX_WIDTH; col++)
+       {
+          image.setPixel(row, col, false)
+       }
+    }
+   
