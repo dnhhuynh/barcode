@@ -158,7 +158,7 @@ class BarcodeImage implements Cloneable
    public boolean getPixel(int row, int col)  //Brenna
    {
       boolean pixel;
-      if (row > 0 && row <= MAX_HEIGHT && col > 0 && col <= MAX_WIDTH)
+      if (row > 0 && row <= MAX_HEIGHT && col >= 0 && col <= MAX_WIDTH)
       {
          pixel = image_data[row][col];
          return pixel;
@@ -171,7 +171,7 @@ class BarcodeImage implements Cloneable
 
    public boolean setPixel(int row, int col, boolean value) //Brenna
    {
-      if (row > 0 && row <= MAX_HEIGHT && col > 0 && col <= MAX_WIDTH)
+      if (row > 0 && row <= MAX_HEIGHT && col >= 0 && col <= MAX_WIDTH)
       {
          image_data[row][col] = value;
          return true;
