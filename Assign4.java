@@ -317,6 +317,17 @@ class DataMatrix implements BarcodeIO
 		
 		return BarcodeImage.MAX_HEIGHT - min_Height;
 	}
+	
+	private void cleanImage()
+	{
+		for(int row = BarcodeImage.MAX_HEIGHT - actualHeight; row >= 0; row--)
+		{
+			for(int col = BarcodeImage.MAX_WIDTH - actualWidth; col < BarcodeImage.MAX_WIDTH; col++)
+			{
+				image.setPixel(BarcodeImage.MAX_HEIGHT - (actualHeight - row) - 1, col - actualWidth, image.getPixel(row, col));
+			}
+		}
+	}
 }
 
 //Displays only the relevant portion of the image,
