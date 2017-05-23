@@ -13,9 +13,9 @@ import java.lang.Math;
 
 public class Assign4 {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 	
-  	String[] sImageIn = {
+    String[] sImageIn = {
      
       "* * * * * * * * * * * * * * * * * * * * * ",
       "*                                       * ",
@@ -29,7 +29,7 @@ public class Assign4 {
       "***************************************** ", 
       };
        
-		String[] sImageIn_2 = {  
+    String[] sImageIn_2 = {  
             
 			"                                          ",
       "                                          ",
@@ -46,7 +46,7 @@ public class Assign4 {
 			};
 		
 
-  	String[] sImageIn_3 = {
+    String[] sImageIn_3 = {
   	
 			" * * * * * * * * * * * * *   ",
 			" *                         * ",
@@ -62,17 +62,17 @@ public class Assign4 {
 			"	  												  " 					
 	  };
       
-	  BarcodeImage bc = new BarcodeImage(sImageIn);
+    BarcodeImage bc = new BarcodeImage(sImageIn);
     DataMatrix dm = new DataMatrix(bc);
 
-		System.out.println(""); 
+    System.out.println(""); 
 		
     // First secret message:
     dm.translateImageToText();
     dm.displayTextToConsole();
     dm.displayImageToConsole();
-
-		System.out.println(""); 
+    
+    System.out.println(""); 
 		
     // Second secret message:
     bc = new BarcodeImage(sImageIn_2);
