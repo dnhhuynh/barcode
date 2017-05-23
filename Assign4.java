@@ -96,6 +96,7 @@ public class Assign4 {
 		dm.translateImageToText();
 		dm.displayTextToConsole();
 		dm.displayImageToConsole();
+		
 
 	} // Close main
 
@@ -364,13 +365,13 @@ class DataMatrix implements BarcodeIO {
 		try {
 
 			this.image = (BarcodeImage)image.clone();
-			this.cleanImage();
 
 			// Set actual width and height: 
 			signalWidth = computeSignalWidth();
 			signalHeight = computeSignalHeight();
 			actualWidth = signalWidth - 2;
-			actualHeight = signalHeight - 2;    
+			actualHeight = signalHeight - 2;
+			this.cleanImage();
 
 			return true; 
 		}
@@ -433,15 +434,17 @@ class DataMatrix implements BarcodeIO {
 		// Utility   
 		clearImage();
 		makeFrame();
-		scan(image);
 
-		for (col = 1; col < text.length() + 1; col++) {
+		for (col = 1; col < text.length(); col++) {
 			columnVals = charToBinary(text.charAt(col - 1));
 
 			for (row = BarcodeImage.MAX_HEIGHT - 2, digit = columnVals.length - 1; row >= BarcodeImage.MAX_HEIGHT - 9; row--, digit--) {
 				image.setPixel(row, col, columnVals[digit]);
 			}
 		}
+		
+		signalWidth = computeSignalWidth();
+		signalHeight = computeSignalHeight();
 
 		return true;
 	}
@@ -478,7 +481,7 @@ class DataMatrix implements BarcodeIO {
 
 		int row, col;
 		char temp;
-
+		
 		System.out.println();
 
 		for ( col = 0; col < signalWidth + 2; col++ )
@@ -507,10 +510,10 @@ class DataMatrix implements BarcodeIO {
 	// Will move the signal to the lower-left of the larger 2D array  
 	private void cleanImage() {
 
-		for(int row = BarcodeImage.MAX_HEIGHT - actualHeight; row >= 0; row--) {
+		for(int row = BarcodeImage.MAX_HEIGHT - 1; row > BarcodeImage.MAX_HEIGHT - actualHeight; row--) {
 
-			for(int col = BarcodeImage.MAX_WIDTH - actualWidth; col < BarcodeImage.MAX_WIDTH; col++) {
-				image.setPixel(BarcodeImage.MAX_HEIGHT - (actualHeight - row) - 1, col - actualWidth, image.getPixel(row, col));
+			for(int col = BarcodeImage.MAX_WIDTH - signalWidth; col < BarcodeImage.MAX_WIDTH; col++) {
+				image.setPixel(BarcodeImage.MAX_HEIGHT - (signalHeight - row) - 1, col - signalWidth, image.getPixel(row, col));
 
 			}
 		}
@@ -622,19 +625,35 @@ You did it!  Great work.  Celebrate.
 |****  *  * *  * **  ** *   ** *  * *  |
 |**************************************|
 ----------------------------------------
-Logistic Solutions
 
-----------------------
-|* * * * * * * * * * |
-|*                  *|
-|********* ********* |
-|* ******** *********|
-|*    **   *  **   * |
-|*** *  *   **  *** *|
-|****  *    **** **  |
-|* ** *  * **    ****|
-|* **** ** ** * ** * |
-|********************|
-----------------------
+Team Logistic Solutions!
+
+----------------------------
+|* * * * * * * * * * * * * |
+|*                        *|
+|***** ******** *********  |
+|* **** ******** ******** *|
+|**        **   *  **   *  |
+|*   * ** *  *   **  ***  *|
+|*** * ***  *    **** **   |
+|*      ** *  * **    *** *|
+|* ***  **** ** ** * ** *  |
+|**************************|
+----------------------------
+
+This needs to be cleaned!
+
+-----------------------------
+|* * * * * * * * * * * * * *|
+|*                         *|
+|***** ***** ** ** *******  |
+|* *************************|
+|**  *     * *              |
+|* **  *      *     *  *   *|
+|**    ****  **  *  ** ***  |
+|*   * *   *  * *  *   *   *|
+|*  **  ** *  *  * * ** * * |
+|***************************|
+-----------------------------
 
  */
