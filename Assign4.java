@@ -426,7 +426,7 @@ class DataMatrix implements BarcodeIO {
     return min_Width;
 	}
    
-	// --------------------- Implementation of BarcodeIO Methods: ------------------- 	   
+  // --------------------- Implementation of BarcodeIO Methods: ------------------- 	   
   
   // Looks at the internal text stored and produces a companion barCodeImage internally.  
 	public boolean generateImageFromText() {
@@ -455,10 +455,10 @@ class DataMatrix implements BarcodeIO {
 	}
   
   // Looks at the internal text stored and produces a companion text string internally.
-	public boolean translateImageToText() {
+  public boolean translateImageToText() {
 	
-  	int row, col, digit;
-  	char temp;
+    int row, col, digit;
+    char temp;
       
     readText("");
     
@@ -508,11 +508,11 @@ class DataMatrix implements BarcodeIO {
     	System.out.print("-");
    	
    	System.out.println();
-	}
+  }
    
   // --------------------------------------------------------------------------- 	   
    
-	// Will move the signal to the lower-left of the larger 2D array  
+  // Will move the signal to the lower-left of the larger 2D array  
   private void cleanImage() {
 
 		for(int row = BarcodeImage.MAX_HEIGHT - actualHeight; row >= 0; row--) {
