@@ -29,7 +29,7 @@ public class Assign4 {
       "***************************************** ", 
       };
        
-		String[] sImageIn_2 = { 
+		String[] sImageIn_2 = {  
             
 			"                                          ",
       "                                          ",
