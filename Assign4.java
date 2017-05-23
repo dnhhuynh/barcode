@@ -13,7 +13,7 @@ import java.lang.Math;
 
 public class Assign4 {
 
-	public static void main(String[] args)
+     public static void main(String[] args)
     {
       String[] sImageIn =
       {
