@@ -13,92 +13,74 @@ import java.lang.Math;
 
 public class Assign4 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+    {
+      String[] sImageIn =
+      {
+         "                                               ",
+         "                                               ",
+         "                                               ",
+         "     * * * * * * * * * * * * * * * * * * * * * ",
+         "     *                                       * ",
+         "     ****** **** ****** ******* ** *** *****   ",
+         "     *     *    ****************************** ",
+         "     * **    * *        **  *    * * *   *     ",
+         "     *   *    *  *****    *   * *   *  **  *** ",
+         "     *  **     * *** **   **  *    **  ***  *  ",
+         "     ***  * **   **  *   ****    *  *  ** * ** ",
+         "     *****  ***  *  * *   ** ** **  *   * *    ",
+         "     ***************************************** ",  
+         "                                               ",
+         "                                               ",
+         "                                               "
 
-		String[] sImageIn = {
+      };      
+            
+         
+      
+      String[] sImageIn_2 =
+      {
+            "                                          ",
+            "                                          ",
+            "* * * * * * * * * * * * * * * * * * *     ",
+            "*                                    *    ",
+            "**** *** **   ***** ****   *********      ",
+            "* ************ ************ **********    ",
+            "** *      *    *  * * *         * *       ",
+            "***   *  *           * **    *      **    ",
+            "* ** * *  *   * * * **  *   ***   ***     ",
+            "* *           **    *****  *   **   **    ",
+            "****  *  * *  * **  ** *   ** *  * *      ",
+            "**************************************    ",
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                                          "
 
-				"* * * * * * * * * * * * * * * * * * * * * ",
-				"*                                       * ",
-				"****** **** ****** ******* ** *** *****   ",
-				"*     *    ****************************** ",
-				"* **    * *        **  *    * * *   *     ",
-				"*   *    *  *****    *   * *   *  **  *** ",
-				"*  **     * *** **   **  *    **  ***  *  ",
-				"***  * **   **  *   ****    *  *  ** * ** ",
-				"*****  ***  *  * *   ** ** **  *   * *    ",
-				"***************************************** ", 
-		};
-
-		String[] sImageIn_2 = {  
-
-				"                                          ",
-				"                                          ",
-				"* * * * * * * * * * * * * * * * * * *     ",
-				"*                                    *    ",
-				"**** *** **   ***** ****   *********      ",
-				"* ************ ************ **********    ",
-				"** *      *    *  * * *         * *       ",
-				"***   *  *           * **    *      **    ",
-				"* ** * *  *   * * * **  *   ***   ***     ",
-				"* *           **    *****  *   **   **    ",
-				"****  *  * *  * **  ** *   ** *  * *      ",
-				"**************************************    "
-		};
-
-
-		String[] sImageIn_3 = {
-				
-				"  * * * * * * * * * * * * * * ",
-				"  *                         * ",
-				"  ***** ***** ** ** *******   ",
-				"  * ************************* ",
-				"  **  *     * *               ",
-				"  * **  *      *     *  *   * ",
-				"  **    ****  **  *  ** ***   ",
-				"  *   * *   *  * *  *   *   * ", 
-				"  *  **  ** *  *  * * ** * *  ",
-				"  *************************** ",
-				"                              ",
-				"                              "
-		};
-
-		BarcodeImage bc = new BarcodeImage(sImageIn);
-		DataMatrix dm = new DataMatrix(bc);
-
-		System.out.println(""); 
-
-		// First secret message:
-		dm.translateImageToText();
-		dm.displayTextToConsole();
-		dm.displayImageToConsole();
-
-		System.out.println(""); 
-
-		// Second secret message:
-		bc = new BarcodeImage(sImageIn_2);
-		dm.scan(bc);
-		dm.translateImageToText();
-		dm.displayTextToConsole();
-		dm.displayImageToConsole();
-
-		System.out.println(""); 
-
-		// Create your own message:
-		dm.readText("Team Logistic Solutions!");
-		dm.generateImageFromText();
-		dm.displayTextToConsole();
-		dm.displayImageToConsole();
-
-		System.out.println(""); 					
-		// Third secret message:
-		bc = new BarcodeImage(sImageIn_3);
-		dm.scan(bc);
-		dm.translateImageToText();
-		dm.displayTextToConsole();
-		dm.displayImageToConsole();
-		
-
-	} // Close main
+      };
+     
+      BarcodeImage bc = new BarcodeImage(sImageIn);
+      DataMatrix dm = new DataMatrix(bc);
+     
+      // First secret message
+      dm.translateImageToText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();
+      
+      // second secret message
+      bc = new BarcodeImage(sImageIn_2);
+      dm.scan(bc);
+      dm.translateImageToText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();
+      
+      // create your own message
+      dm.readText("What a great resume builder this is!");
+      dm.generateImageFromText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();
+   
+      } // Close main()   
 
 } // Close demo class
 
@@ -595,7 +577,6 @@ class DataMatrix implements BarcodeIO {
 
 /** ============================== OUTPUT =====================================
 
-
 CSUMB CSIT online program is top notch.
 
 -------------------------------------------
@@ -610,7 +591,6 @@ CSUMB CSIT online program is top notch.
 |*****  ***  *  * *   ** ** **  *   * *   |
 |*****************************************|
 -------------------------------------------
-
 You did it!  Great work.  Celebrate.
 
 ----------------------------------------
@@ -625,35 +605,19 @@ You did it!  Great work.  Celebrate.
 |****  *  * *  * **  ** *   ** *  * *  |
 |**************************************|
 ----------------------------------------
+What a great resume builder this is!
 
-Team Logistic Solutions!
-
-----------------------------
-|* * * * * * * * * * * * * |
-|*                        *|
-|***** ******** *********  |
-|* **** ******** ******** *|
-|**        **   *  **   *  |
-|*   * ** *  *   **  ***  *|
-|*** * ***  *    **** **   |
-|*      ** *  * **    *** *|
-|* ***  **** ** ** * ** *  |
-|**************************|
-----------------------------
-
-This needs to be cleaned!
-
------------------------------
-|* * * * * * * * * * * * * *|
-|*                         *|
-|***** ***** ** ** *******  |
-|* *************************|
-|**  *     * *              |
-|* **  *      *     *  *   *|
-|**    ****  **  *  ** ***  |
-|*   * *   *  * *  *   *   *|
-|*  **  ** *  *  * * ** * * |
-|***************************|
------------------------------
+----------------------------------------
+|* * * * * * * * * * * * * * * * * * * |
+|*                                    *|
+|***** * ***** ****** ******* **** **  |
+|* ********************************** *|
+|**  *    *  * * **    *    * *  *  *  |
+|* *               *    **     **  *  *|
+|**  *   * * *  * ***  * ***  *        |
+|**      **    * *    *     *    *  * *|
+|** *  * * **   *****  **  *    ** **  |
+|**************************************|
+----------------------------------------
 
  */
