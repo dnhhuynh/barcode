@@ -218,22 +218,24 @@ class BarcodeImage implements Cloneable {
 	public boolean displayToConsole() {
 
 		int minRow = 0, maxCol = 0;
-
-		//if exceeds maxs then return false
-
+		
+                //find starting row and set minRow equal to index
 		for (int i = MAX_HEIGHT - 1; i >= 0; i-- ) {
 
 			if(image_data[i][0] == true) {
 				minRow = i;
 			}
 		}
+		
+		// Find the last column and set the value to maxCol
 		for (int j = 0; j < MAX_WIDTH; j++ ) {
 
 			if(image_data[0][j] == false) {
 				maxCol = j;
 			}
 		}
-
+		
+		// Print pixel : if array element is within acceptable range print '*' for true and ' ' for false
 		if (minRow < MAX_HEIGHT && maxCol > 0 ) {
 
 			for ( int k = minRow; k < MAX_HEIGHT; k++ ) {
